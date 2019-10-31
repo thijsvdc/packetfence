@@ -725,6 +725,7 @@ var directives = []string{
 	"forwardproxy",
 	"pfsso",
 	"pfipset",
+	"pfpki",
 	"httpdispatcher",
 }
 
