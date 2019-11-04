@@ -90,6 +90,7 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/yaml.v2 v2.2.2
 	layeh.com/radius v0.0.0-20180123164351-38e2cda15058
+	software.sslmate.com/src/go-pkcs12 v0.0.0-20190322163127-6e380ad96778
 )
 
 replace github.com/inverse-inc/packetfence => ../

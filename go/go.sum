@@ -1054,3 +1054,5 @@ honnef.co/go/tools v0.0.0-20190102054323-c2f93a96b099/go.mod h1:rf3lG4BRIbNafJWh
 layeh.com/radius v0.0.0-20180123164351-38e2cda15058 h1:oEDPMf+r6XTpYSckwAwAf57FDdtzBERCL3mq28bcwqs=
 layeh.com/radius v0.0.0-20180123164351-38e2cda15058/go.mod h1:fywZKyu//X7iRzaxLgPWsvc0L26IUpVvE/aeIL2JtIQ=
 sigs.k8s.io/yaml v1.1.0/go.mod h1:UJmg0vDUVViEyp3mgSv9WPwZCDxu4rQW1olrI1uml+o=
+software.sslmate.com/src/go-pkcs12 v0.0.0-20190322163127-6e380ad96778 h1:bAjNYCeISA/jECGqIIIgnjfmpW5MxAwF/yfmy4RQWQ8=
+software.sslmate.com/src/go-pkcs12 v0.0.0-20190322163127-6e380ad96778/go.mod h1:/xvNRWUqm0+/ZMiF4EX00vrSCMsE4/NHb+Pt3freEeQ=
