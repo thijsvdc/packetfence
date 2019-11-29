@@ -30,6 +30,7 @@ use pf::SwitchSupports qw(
     WirelessDot1x
     RadiusVoip
     RoleBasedEnforcement
+    ExternalPortal
 );
 
 our $DISCONNECT_TYPE_COA = 'coa';
