@@ -19,7 +19,7 @@ sub buildEntry {
     my ($self, $buildData, $id, $entry) = @_;
     my $type = $id;
     $entry->{type} = $type;
-    for my $k (qw(acceptVlan acceptRole reject disconnect coa voip)) {
+    for my $k (qw(acceptVlan acceptRole acceptUrl reject disconnect coa voip)) {
         next unless exists $entry->{$k};
         my $ras = delete $entry->{$k};
         if (!defined $ras || $ras eq '') {
