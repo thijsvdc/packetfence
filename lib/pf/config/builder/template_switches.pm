@@ -41,13 +41,15 @@ sub buildEntry {
         label    => $entry->{description},
         supports => [
             qw(
+              ExternalPortal
               RadiusDynamicVlanAssignment
-              WiredMacAuth
-              WiredDot1x
-              WirelessMacAuth
-              WirelessDot1x
               RadiusVoip
-              RoleBasedEnforcement)
+              RoleBasedEnforcement
+              WiredDot1x
+              WiredMacAuth
+              WirelessDot1x
+              WirelessMacAuth
+              )
         ],
     };
 

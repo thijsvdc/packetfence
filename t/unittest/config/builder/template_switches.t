@@ -31,13 +31,14 @@ use pf::IniFiles;
 use pf::mini_template;
 my $supports = [
     qw(
+      ExternalPortal
       RadiusDynamicVlanAssignment
-      WiredMacAuth
-      WiredDot1x
-      WirelessMacAuth
-      WirelessDot1x
       RadiusVoip
       RoleBasedEnforcement
+      WiredDot1x
+      WiredMacAuth
+      WirelessDot1x
+      WirelessMacAuth
       )
 ];
 
