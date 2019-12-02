@@ -17,8 +17,9 @@ use Try::Tiny;
 use pf::util::radius qw(perform_coa perform_disconnect);
 use pf::Switch::constants;
 use pf::constants;
-use pf::util qw(isenabled);
+use pf::util qw(isenabled listify);
 use List::MoreUtils qw(uniq);
+use List::Util qw(pairs);
 use pf::constants::role qw($REJECT_ROLE);
 use pf::access_filter::radius;
 use pf::roles::custom;
@@ -119,13 +120,12 @@ sub returnRadiusAccessAccept {
     # Inline Vs. VLAN enforcement
     my %tmp_args = %$args;
     my $role = "";
+
     if ( (!$tmp_args{'wasInline'} || ($tmp_args{'wasInline'} && $tmp_args{'vlan'} != 0) ) && isenabled($self->{_VlanMap})) {
         my $vlanTemplate = $self->{_template}{acceptVlan};
         if ( defined $vlanTemplate &&  defined($tmp_args{'vlan'}) && $tmp_args{'vlan'} ne "" && $tmp_args{'vlan'} ne 0) {
-            $self->updateArgsVariablesForSet(\%tmp_args, $vlanTemplate);
+            $self->addTemplateAttributesToReply($radius_reply_ref, 'acceptVlan', \%tmp_args);
             $logger->info("(".$self->{'_id'}.") Added VLAN $args->{'vlan'} to the returned RADIUS Access-Accept");
-            my ($attrs, undef) = $self->makeRadiusAttributes($vlanTemplate, \%tmp_args);
-            $radius_reply_ref = { @$attrs };
         } else {
             $logger->debug("(".$self->{'_id'}.") Received undefined VLAN. No VLAN added to RADIUS Access-Accept");
         }
@@ -139,20 +139,16 @@ sub returnRadiusAccessAccept {
         my $roleTemplate = $self->{_template}{acceptRole};
         $tmp_args{role} = $role;
         if (defined $roleTemplate && defined($role) && $role ne "" ) {
-            $self->updateArgsVariablesForSet(\%tmp_args, $roleTemplate);
-            my ($attrs, undef) = $self->makeRadiusAttributes($roleTemplate, \%tmp_args);
-            $radius_reply_ref = {
-                %$radius_reply_ref,
-                @$attrs,
-            };
+            $self->addTemplateAttributesToReply($radius_reply_ref, 'acceptRole', \%tmp_args);
             $logger->info(
                 "(".$self->{'_id'}.") Added role $role to the returned RADIUS Access-Accept"
             );
-        }
-        else {
+        } else {
             $logger->debug("(".$self->{'_id'}.") Received undefined role. No Role added to RADIUS Access-Accept");
         }
     }
+
+    $self->addAcceptUrlAttributes($radius_reply_ref, \%tmp_args);
 
     my $status = $RADIUS::RLM_MODULE_OK;
     if (!isenabled($args->{'unfiltered'})) {
@@ -164,13 +160,60 @@ sub returnRadiusAccessAccept {
     return [$status, %$radius_reply_ref];
 }
 
+
+=head2 addTemplateAttributesToReply
+
+addTemplateAttributesToReply
+
+=cut
+
+sub addTemplateAttributesToReply {
+    my ($self, $reply, $templateName, $args) = @_;
+    my $template = $self->{_template}{$templateName};
+    if (!defined $template) {
+        return;
+    }
+
+    $self->updateArgsVariablesForSet($args, $template);
+    my ($attrs, undef) = $self->makeRadiusAttributes($template, $args);
+    $self->_mergeAttributes($reply, $attrs);
+}
+
+
+=head2 _mergeAttributes
+
+_mergeAttributes
+
+=cut
+
+sub _mergeAttributes {
+    my ($self, $radiusReply, $attributes) = @_;
+    my ($err, $results);
+    foreach my $pair ( pairs @$attributes ) {
+        my ( $key, $value ) = @$pair;
+        $value = listify($value);
+        if (exists $radiusReply->{$key}) {
+            my $old_value = listify($radiusReply->{$key});
+            push @$old_value, @$value;
+            $value = $old_value;
+        }
+
+        $radiusReply->{$key} = $value;
+    }
+    return;
+}
+
 sub canDoAcceptUrl {
     my ($self) = @_;
     return defined ($self->{_template}{acceptUrl}) &&  isenabled($self->{_UrlMap}) && $self->externalPortalEnforcement();
 }
 
-sub acceptUrlAttributes {
-    my ($self, $args) = @_;
+sub addAcceptUrlAttributes {
+    my ($self, $reply, $args) = @_;
+    if (!exists $self->{_template}{acceptUrl}) {
+        return;
+    }
+
     if (!$self->canDoAcceptUrl) {
         return undef;
     }
@@ -189,10 +232,7 @@ sub acceptUrlAttributes {
     $args->{'session_id'} = $self->setSession($args);
     $redirect_url .= '/' unless $redirect_url =~ m(\/$);
     $args->{redirect_url} = $redirect_url;
-    my $template = $self->{_template}{acceptUrl};
-    $self->updateArgsVariablesForSet($args, $template);
-    my ($attrs, undef) = $self->makeRadiusAttributes($template, $args);
-    return $attrs;
+    $self->addTemplateAttributesToReply($reply, 'acceptUrl', $args);
 }
 
 =item radiusDisconnect
