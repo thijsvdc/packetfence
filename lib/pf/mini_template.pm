@@ -36,7 +36,7 @@ sub new {
 
 sub process {
     my ($self, $vars) = @_;
-    return join('', $self->process_tmpl($self->{tmpl}, $vars));
+    return join('', grep {defined $_} $self->process_tmpl($self->{tmpl}, $vars));
 }
 
 sub process_tmpl {
