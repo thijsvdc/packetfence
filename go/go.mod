@@ -14,8 +14,8 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/diegoguarnieri/go-conntrack v0.0.0-20161208180411-9abb0707ff31
 	github.com/dnstap/golang-dnstap v0.0.0-20170829151710-2cf77a2b5e11
-	github.com/dustin/go-humanize v1.0.0
 	github.com/domodwyer/mailyak v3.1.1+incompatible // indirect
+	github.com/dustin/go-humanize v1.0.0
 	github.com/farsightsec/golang-framestream v0.0.0-20180124174429-c06a5734334d
 	github.com/fdurand/arp v0.0.0-20180807174648-27b38d3af1be
 	github.com/fdurand/go-cache v0.0.0-20180104143916-cf0198ac7d92
@@ -38,18 +38,15 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.11.3 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20171214222146-0e7658f8ee99
 	github.com/hashicorp/go-syslog v1.0.0
-	github.com/hashicorp/golang-lru v0.0.0-20180201235237-0fb14efe8c47 // indirect
 	github.com/hpcloud/tail v1.0.0
 	github.com/inconshreveable/log15 v0.0.0-20171019012758-0decfc6c20d9
 	github.com/inverse-inc/go-ipset v0.0.0-20190925174109-4d5749cc4aa6
 	github.com/jimstudt/http-authentication v0.0.0-20140401203705-3eca13d6893a
-	github.com/json-iterator/go v1.1.7 // indirect
-	github.com/julienschmidt/httprouter v0.0.0-20171027133709-e1b9828bc9e5
-	github.com/julsemaan/certmagic v0.6.3-0.20191015203349-067e102ae4ff
-	github.com/klauspost/cpuid v1.2.0
 	github.com/jinzhu/gorm v1.9.11
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/julienschmidt/httprouter v1.2.0
+	github.com/julsemaan/certmagic v0.6.3-0.20191015203349-067e102ae4ff
+	github.com/klauspost/cpuid v1.2.0
 	github.com/kr/pretty v0.1.0
 	github.com/krolaw/dhcp4 v0.0.0-20171222085133-4abfceffa76a
 	github.com/kylelemons/godebug v0.0.0-20170820004349-d65d576e9348 // indirect
