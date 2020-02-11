@@ -1121,6 +1121,11 @@ const actions = {
       return Promise.resolve(state.pkiCas)
     }
   },
+  resetPkiCas: ({ state, commit }) => {
+    if (state.pkiCas) {
+      commit('PKI_CAS_RESET')
+    }
+  },
   getPkiProfiles: ({ state, getters, commit }) => {
     if (getters.isLoadingPkiProfiles) {
       return Promise.resolve(state.pkiProfiles)
@@ -1136,6 +1141,11 @@ const actions = {
       return Promise.resolve(state.pkiProfiles)
     }
   },
+  resetPkiProfiles: ({ state, commit }) => {
+    if (state.pkiProfiles) {
+      commit('PKI_PROFILES_RESET')
+    }
+  },
   getPkiCerts: ({ state, getters, commit }) => {
     if (getters.isLoadingPkiCerts) {
       return Promise.resolve(state.pkiCerts)
@@ -1149,6 +1159,11 @@ const actions = {
       })
     } else {
       return Promise.resolve(state.pkiCerts)
+    }
+  },
+  resetPkiCerts: ({ state, commit }) => {
+    if (state.pkiCerts) {
+      commit('PKI_CERTS_RESET')
     }
   },
   getPkiProviders: ({ state, getters, commit }) => {
@@ -1667,6 +1682,9 @@ const mutations = {
     state.pkiCas = pkiCas
     state.pkiCasStatus = types.SUCCESS
   },
+  PKI_CAS_RESET: (state) => {
+    state.pkiCas = false
+  },
   PKI_PROFILES_REQUEST: (state) => {
     state.pkiProfilesStatus = types.LOADING
   },
@@ -1674,12 +1692,18 @@ const mutations = {
     state.pkiProfiles = pkiProfiles
     state.pkiProfilesStatus = types.SUCCESS
   },
+  PKI_PROFILES_RESET: (state) => {
+    state.pkiProfiles = false
+  },
   PKI_CERTS_REQUEST: (state) => {
     state.pkiCertsStatus = types.LOADING
   },
   PKI_CERTS_UPDATED: (state, pkiCerts) => {
     state.pkiCerts = pkiCerts
     state.pkiCertsStatus = types.SUCCESS
+  },
+  PKI_CERTS_RESET: (state) => {
+    state.pkiCerts = false
   },
   PKI_PROVIDERS_REQUEST: (state) => {
     state.pkiProvidersStatus = types.LOADING
