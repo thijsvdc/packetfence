@@ -23,7 +23,7 @@ use pf::freeradius;
 use Module::Load;
 use Benchmark qw(:all);
 use List::Util qw(first);
-use List::MoreUtils qw(any);
+use List::MoreUtils qw(any uniq);
 use pf::CHI;
 use pfconfig::cached_hash;
 use pfconfig::cached_array;
@@ -98,6 +98,14 @@ sub instantiate {
         if(exists $switchRequest->{switch_ip} && defined $switchRequest->{switch_ip}) {
             $switch_ip = $switchRequest->{switch_ip};
             push @requestedSwitches,$switch_ip;
+        }
+        if(exists $switchRequest->{switch_id} && defined $switchRequest->{switch_id}) {
+            push @requestedSwitches,$switchRequest->{switch_id};
+            if(valid_ip($switchRequest->{switch_id})) {
+                $switch_ip = $switchRequest->{switch_id};
+            } elsif (valid_mac($switchRequest->{switch_id})) {
+                $switch_mac = $switchRequest->{switch_id};
+            }
         }
     } else {
         @requestedSwitches = ($switchRequest);
